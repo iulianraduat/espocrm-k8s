@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: espocrm
+  name: espocrm-env
+data:
+  ESPOCRM_ADMIN_PASSWORD: pasword
+  ESPOCRM_ADMIN_USERNAME: admin
+  ESPOCRM_DATABASE: espocrm
+  ESPOCRM_DATABASE_HOST: 127.0.0.1
+  ESPOCRM_DATABASE_PASSWORD: espocrm-password
+  ESPOCRM_DATABASE_PLATFORM: Mysql
+  ESPOCRM_DATABASE_USER: espocrm
+  ESPOCRM_SITE_URL: http://localhost

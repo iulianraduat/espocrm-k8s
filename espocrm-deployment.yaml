@@ -30,6 +30,19 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
+    app: espocrm
+  name: espocrm-custom
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
     app: espocrm-mysql
   name: espocrm-mysql
 spec:
@@ -109,6 +122,8 @@ spec:
           volumeMounts:
             - mountPath: /var/log/www
               name: espocrm-logs
+            - mountPath: /var/www/html/custom/Espo
+              name: espocrm-custom
         - env:
             - name: MYSQL_DATABASE
               valueFrom:
@@ -142,6 +157,9 @@ spec:
         - name: espocrm-logs
           persistentVolumeClaim:
             claimName: espocrm-logs
+        - name: espocrm-custom
+          persistentVolumeClaim:
+            claimName: espocrm-custom
         - name: espocrm-mysql
           persistentVolumeClaim:
             claimName: espocrm-mysql

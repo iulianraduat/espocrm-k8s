@@ -31,6 +31,19 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: espocrm
+  name: espocrm-upload
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: espocrm
   name: espocrm-custom
 spec:
   accessModes:
@@ -120,8 +133,10 @@ spec:
                   - '-c'
                   - 'echo "* * * * * cd /var/www/html; /usr/local/bin/php -f cron.php > /dev/null 2>&1" > /etc/cron.d/espocrm;'
           volumeMounts:
-            - mountPath: /var/log/www
+            - mountPath: /var/www/html/data/logs
               name: espocrm-logs
+            - mountPath: /var/www/html/data/upload
+              name: espocrm-upload
             - mountPath: /var/www/html/custom/Espo
               name: espocrm-custom
         - env:
@@ -157,6 +172,9 @@ spec:
         - name: espocrm-logs
           persistentVolumeClaim:
             claimName: espocrm-logs
+        - name: espocrm-upload
+          persistentVolumeClaim:
+            claimName: espocrm-upload
         - name: espocrm-custom
           persistentVolumeClaim:
             claimName: espocrm-custom
